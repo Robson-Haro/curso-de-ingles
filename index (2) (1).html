@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Mastery Pro - Neural Learning System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark Theme Colors */
+            --bg-primary: #0A0E1A;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1F2937;
+            --bg-card: #1A2233;
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --text-muted: #9CA3AF;
+            --accent-primary: #3B82F6;
+            --accent-secondary: #8B5CF6;
+            --accent-success: #10B981;
+            --accent-warning: #F59E0B;
+            --accent-danger: #EF4444;
+            --border-color: #374151;
+            --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            --gradient-success: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-weight: 400;
+        }
+        
+        .mono {
+            font-family: 'Space Mono', monospace;
+        }
+        
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Login Screen */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #loginScreen::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .login-container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            padding: 2rem;
+        }
+        
+        .brain-icon {
+            font-size: 6rem;
+            animation: pulse 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
+            }
+            50% { 
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 50px rgba(139, 92, 246, 0.8));
+            }
+        }
+        
+        .login-container h1 {
+            font-size: 3.5rem;
+            margin: 1.5rem 0 0.5rem;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .login-box {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+        
+        #passwordInput {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s;
+        }
+        
+        #passwordInput:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--bg-card);
+            padding: 1.2rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: 400;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Instrument Serif', serif;
+        }
+        
+        .nav-stats {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .btn-logout {
+            padding: 0.7rem 1.8rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: var(--accent-danger);
+            border-color: var(--accent-danger);
+            transform: translateY(-2px);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2.5rem;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        /* Progress Overview */
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .progress-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .progress-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+        
+        .progress-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-card-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .progress-bar-container {
+            margin-top: 1rem;
+            background: var(--bg-secondary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 0.6s ease-out;
+        }
+        
+        /* Months Grid */
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .month-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .month-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+        
+        .month-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .month-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+        
+        .month-card.completed {
+            border-color: var(--accent-success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+        }
+        
+        .month-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .month-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .month-level {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .month-status {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        /* Activity Cards */
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .activity-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .activity-header h3 {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .xp-badge {
+            background: var(--gradient-success);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 24px;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Vocabulary Grid */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .vocab-item {
+            padding: 1.2rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .vocab-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            background: var(--bg-tertiary);
+        }
+        
+        .vocab-word {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .vocab-translation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .vocab-example {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-complete {
+            background: var(--gradient-success);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-complete:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close:hover {
+            color: var(--accent-danger);
+            background: var(--bg-secondary);
+        }
+        
+        /* Quiz */
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .quiz-option {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05rem;
+        }
+        
+        .quiz-option:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-primary);
+            transform: translateX(8px);
+        }
+        
+        .quiz-option.selected {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .quiz-option.correct {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+        
+        .quiz-option.wrong {
+            background: var(--accent-danger);
+            border-color: var(--accent-danger);
+            color: white;
+        }
+        
+        /* Flashcards */
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 2rem 0;
+        }
+        
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .flashcard-front {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .flashcard-back {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-primary);
+            color: var(--text-primary);
+            transform: rotateY(180deg);
+        }
+        
+        /* Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        .resource-link:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .resource-icon {
+            font-size: 2rem;
+        }
+        
+        .resource-text {
+            flex: 1;
+        }
+        
+        .resource-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .resource-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        /* Listening Exercise */
+        .listening-player {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .play-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Achievement Badges */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .achievement {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .achievement.unlocked {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
+        }
+        
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: grayscale(100%);
+            opacity: 0.4;
+        }
+        
+        .achievement.unlocked .achievement-icon {
+            filter: grayscale(0%);
+            opacity: 1;
+            animation: bounce 0.6s ease-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .achievement-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .achievement-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .analytics-chart {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .nav-stats {
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .login-container h1 {
+                font-size: 2.5rem;
+            }
+            
+            .months-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient-success);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="brain-icon">🧠</div>
+            <h1>English Mastery Pro</h1>
+            <p class="login-subtitle">Neural Learning System • A1 to B2</p>
+            <div class="login-box">
+                <input type="password" id="passwordInput" placeholder="Digite sua senha" />
+                <button class="btn-primary" onclick="login()">Entrar no Sistema</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="screen">
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="nav-brand">English Mastery Pro</div>
+            <div class="nav-stats">
+                <div class="nav-stat">
+                    <div class="nav-stat-label">Nível</div>
+                    <div class="stat-value" id="currentLevel">A1</div>
+                </div>
+                <div class="nav-stat">
+                    <div class="nav-stat-label">Total XP</div>
+                    <div class="stat-value" id="totalXP">0</div>
+                </div>
+                <div class="nav-stat">
+                    <div class="nav-stat-label">Sequência</div>
+                    <div class="stat-value" id="streakCount">0</div>
+                </div>
+                <button class="btn-logout" onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="container">
+            <!-- Months Section -->
+            <div id="monthsSection">
+                <div class="section-header">
+                    <h1 class="section-title">Sua Jornada de Aprendizado</h1>
+                    <p class="section-subtitle">12 meses • A1 ao B2 • Sistema de aprendizado baseado em neurociência</p>
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="progress-overview">
+                    <div class="progress-card">
+                        <div class="progress-card-icon">📊</div>
+                        <div class="progress-card-label">Progresso Geral</div>
+                        <div class="progress-card-value" id="overallProgress">0%</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="overallProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-card-icon">🎯</div>
+                        <div class="progress-card-label">Meses Concluídos</div>
+                        <div class="progress-card-value" id="completedCount">0/12</div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-card-icon">🔥</div>
+                        <div class="progress-card-label">Dias Consecutivos</div>
+                        <div class="progress-card-value" id="streakDays">0</div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-card-icon">⏱️</div>
+                        <div class="progress-card-label">Tempo Total</div>
+                        <div class="progress-card-value" id="totalTime">0h</div>
+                    </div>
+                </div>
+
+                <!-- Months Grid -->
+                <div class="months-grid" id="monthsGrid"></div>
+            </div>
+
+            <!-- Daily Activities Section -->
+            <div id="dailySection" style="display: none;">
+                <button class="btn btn-secondary" onclick="backToMonths()" style="margin-bottom: 2rem;">← Voltar aos Meses</button>
+                
+                <div class="section-header">
+                    <h1 class="section-title" id="monthTitle"></h1>
+                    <p class="section-subtitle">Complete todas as atividades para ganhar XP e desbloquear o próximo mês</p>
+                </div>
+
+                <div id="activitiesContainer" class="activities-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeQuiz()">×</span>
+            <h2 style="margin-bottom: 2rem;">Quiz de Vocabulário</h2>
+            <div id="quizContent"></div>
+            <button class="btn btn-primary" onclick="checkQuizAnswer()" style="margin-top: 2rem; width: 100%;">Verificar Resposta</button>
+        </div>
+    </div>
+
+    <!-- Flashcard Modal -->
+    <div id="flashcardModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFlashcards()">×</span>
+            <h2 style="margin-bottom: 2rem;">Flashcards - Sistema de Repetição Espaçada</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-face flashcard-front" id="flashcardFront"></div>
+                    <div class="flashcard-face flashcard-back" id="flashcardBack"></div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Clique no card para virar</p>
+                <button class="btn btn-primary" onclick="nextFlashcard()">Próximo Card</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Extended Course Data with Complete Content
+        const courseData = [
+            {
+                id: 1,
+                title: "Foundations & Greetings",
+                level: "A1",
+                theory: `
+                    <h3>Fundamentos do Inglês</h3>
+                    <p><strong>Alfabeto e Pronúncia:</strong> O alfabeto inglês possui 26 letras. A pronúncia é fundamental para o aprendizado.</p>
+                    <p><strong>Cumprimentos Básicos:</strong></p>
+                    <ul>
+                        <li>Hello / Hi - Olá</li>
+                        <li>Good morning - Bom dia</li>
+                        <li>Good afternoon - Boa tarde</li>
+                        <li>Good evening - Boa noite</li>
+                        <li>Goodbye / Bye - Adeus</li>
+                    </ul>
+                    <p><strong>Estrutura de Apresentação:</strong></p>
+                    <p>"My name is [name]" - Meu nome é<br>
+                    "I am from [country]" - Eu sou de<br>
+                    "Nice to meet you" - Prazer em conhecê-lo</p>
+                `,
+                vocabulary: [
+                    { en: "Hello", pt: "Olá", example: "Hello! How are you?" },
+                    { en: "Goodbye", pt: "Adeus", example: "Goodbye! See you tomorrow." },
+                    { en: "Please", pt: "Por favor", example: "Could you help me, please?" },
+                    { en: "Thank you", pt: "Obrigado(a)", example: "Thank you very much!" },
+                    { en: "Yes", pt: "Sim", example: "Yes, I understand." },
+                    { en: "No", pt: "Não", example: "No, I don't think so." },
+                    { en: "Name", pt: "Nome", example: "What is your name?" },
+                    { en: "From", pt: "De (origem)", example: "I am from Brazil." }
+                ],
+                quiz: [
+                    {
+                        question: "Como se diz 'Olá' em inglês?",
+                        options: ["Hi", "Bye", "Thanks", "Please"],
+                        correct: 0
+                    },
+                    {
+                        question: "Qual é a tradução correta de 'Thank you'?",
+                        options: ["De nada", "Por favor", "Obrigado", "Sim"],
+                        correct: 2
+                    },
+                    {
+                        question: "Complete: 'My name ___ John'",
+                        options: ["am", "is", "are", "be"],
+                        correct: 1
+                    }
+                ],
+                listening: {
+                    text: "Hello! My name is Sarah. I am from the United States. Nice to meet you!",
+                    questions: [
+                        {
+                            q: "What is the speaker's name?",
+                            options: ["John", "Sarah", "Mary", "Anna"],
+                            correct: 1
+                        }
+                    ]
+                }
+            },
+            {
+                id: 2,
+                title: "Numbers & Time",
+                level: "A1",
+                theory: `
+                    <h3>Números e Tempo</h3>
+                    <p><strong>Números Cardinais (1-100):</strong></p>
+                    <ul>
+                        <li>1-10: one, two, three, four, five, six, seven, eight, nine, ten</li>
+                        <li>11-20: eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty</li>
+                        <li>Dezenas: thirty (30), forty (40), fifty (50), sixty (60), seventy (70), eighty (80), ninety (90), one hundred (100)</li>
+                    </ul>
+                    <p><strong>Horas:</strong></p>
+                    <ul>
+                        <li>What time is it? - Que horas são?</li>
+                        <li>It's three o'clock - São três horas</li>
+                        <li>It's half past two - São duas e meia</li>
+                        <li>It's quarter to four - Quinze para as quatro</li>
+                    </ul>
+                    <p><strong>Dias da Semana:</strong> Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday</p>
+                `,
+                vocabulary: [
+                    { en: "One", pt: "Um", example: "I have one brother." },
+                    { en: "Two", pt: "Dois", example: "She has two cats." },
+                    { en: "Time", pt: "Tempo/Hora", example: "What time is it?" },
+                    { en: "Today", pt: "Hoje", example: "Today is Monday." },
+                    { en: "Yesterday", pt: "Ontem", example: "Yesterday was Sunday." },
+                    { en: "Tomorrow", pt: "Amanhã", example: "Tomorrow is Tuesday." },
+                    { en: "Week", pt: "Semana", example: "There are seven days in a week." },
+                    { en: "Hour", pt: "Hora", example: "One hour has sixty minutes." }
+                ],
+                quiz: [
+                    {
+                        question: "Qual é o número 'fifteen' em português?",
+                        options: ["Cinquenta", "Quinze", "Cinco", "Dezesseis"],
+                        correct: 1
+                    },
+                    {
+                        question: "Como se diz '3:30' em inglês?",
+                        options: ["Three thirty", "Half past three", "Quarter to four", "Both A and B"],
+                        correct: 3
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Verb To Be",
+                level: "A2",
+                theory: `
+                    <h3>Verbo To Be (Ser/Estar)</h3>
+                    <p><strong>Formas do Presente:</strong></p>
+                    <ul>
+                        <li>I am (I'm) - Eu sou/estou</li>
+                        <li>You are (You're) - Você é/está</li>
+                        <li>He/She/It is (He's/She's/It's) - Ele/Ela é/está</li>
+                        <li>We are (We're) - Nós somos/estamos</li>
+                        <li>They are (They're) - Eles/Elas são/estão</li>
+                    </ul>
+                    <p><strong>Forma Negativa:</strong> I am not (I'm not), You are not (aren't), He is not (isn't)</p>
+                    <p><strong>Forma Interrogativa:</strong> Am I...? Are you...? Is he/she/it...?</p>
+                    <p><strong>Exemplos:</strong></p>
+                    <ul>
+                        <li>I am a teacher. (Eu sou professor/a)</li>
+                        <li>She is happy. (Ela está feliz)</li>
+                        <li>They are students. (Eles são estudantes)</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "Am", pt: "Sou/Estou (I)", example: "I am a student." },
+                    { en: "Are", pt: "É/Está (you/we/they)", example: "You are my friend." },
+                    { en: "Is", pt: "É/Está (he/she/it)", example: "He is a doctor." },
+                    { en: "Happy", pt: "Feliz", example: "She is happy today." },
+                    { en: "Sad", pt: "Triste", example: "Why are you sad?" },
+                    { en: "Tired", pt: "Cansado(a)", example: "I am tired." },
+                    { en: "Busy", pt: "Ocupado(a)", example: "He is busy at work." },
+                    { en: "Ready", pt: "Pronto(a)", example: "Are you ready?" }
+                ],
+                quiz: [
+                    {
+                        question: "Complete: 'She ___ a teacher.'",
+                        options: ["am", "is", "are", "be"],
+                        correct: 1
+                    },
+                    {
+                        question: "Qual é a forma negativa de 'I am'?",
+                        options: ["I amn't", "I'm not", "I not am", "I aren't"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Present Simple",
+                level: "A2",
+                theory: `
+                    <h3>Presente Simples</h3>
+                    <p><strong>Uso:</strong> Expressa hábitos, rotinas, fatos e verdades universais.</p>
+                    <p><strong>Estrutura Afirmativa:</strong></p>
+                    <ul>
+                        <li>I/You/We/They + verbo base</li>
+                        <li>He/She/It + verbo + s/es</li>
+                    </ul>
+                    <p><strong>Exemplos:</strong></p>
+                    <ul>
+                        <li>I work every day. (Eu trabalho todo dia)</li>
+                        <li>She studies English. (Ela estuda inglês)</li>
+                        <li>They play football. (Eles jogam futebol)</li>
+                    </ul>
+                    <p><strong>Negativa:</strong> I/You/We/They + don't + verbo | He/She/It + doesn't + verbo</p>
+                    <p><strong>Interrogativa:</strong> Do + I/you/we/they + verbo? | Does + he/she/it + verbo?</p>
+                `,
+                vocabulary: [
+                    { en: "Work", pt: "Trabalhar", example: "I work at a bank." },
+                    { en: "Study", pt: "Estudar", example: "She studies every night." },
+                    { en: "Play", pt: "Jogar/Brincar", example: "They play soccer on weekends." },
+                    { en: "Live", pt: "Morar/Viver", example: "We live in São Paulo." },
+                    { en: "Like", pt: "Gostar", example: "I like coffee." },
+                    { en: "Love", pt: "Amar", example: "He loves his family." },
+                    { en: "Want", pt: "Querer", example: "Do you want some water?" },
+                    { en: "Need", pt: "Precisar", example: "She needs a new phone." }
+                ],
+                quiz: [
+                    {
+                        question: "Complete: 'He ___ to work by car.'",
+                        options: ["go", "goes", "going", "to go"],
+                        correct: 1
+                    },
+                    {
+                        question: "Qual é a forma interrogativa de 'You like pizza'?",
+                        options: ["You like pizza?", "Like you pizza?", "Do you like pizza?", "Does you like pizza?"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Present Continuous",
+                level: "A2",
+                theory: `
+                    <h3>Presente Contínuo</h3>
+                    <p><strong>Uso:</strong> Expressa ações que estão acontecendo agora ou temporariamente.</p>
+                    <p><strong>Estrutura:</strong> Sujeito + verbo to be (am/is/are) + verbo principal + -ing</p>
+                    <p><strong>Exemplos:</strong></p>
+                    <ul>
+                        <li>I am working now. (Estou trabalhando agora)</li>
+                        <li>She is studying English. (Ela está estudando inglês)</li>
+                        <li>They are playing football. (Eles estão jogando futebol)</li>
+                    </ul>
+                    <p><strong>Palavras-chave:</strong> now, at the moment, right now, currently</p>
+                    <p><strong>Negativa:</strong> Subject + am/is/are + not + verb-ing</p>
+                    <p><strong>Interrogativa:</strong> Am/Is/Are + subject + verb-ing?</p>
+                `,
+                vocabulary: [
+                    { en: "Reading", pt: "Lendo", example: "I am reading a book." },
+                    { en: "Writing", pt: "Escrevendo", example: "She is writing an email." },
+                    { en: "Eating", pt: "Comendo", example: "They are eating lunch." },
+                    { en: "Drinking", pt: "Bebendo", example: "He is drinking coffee." },
+                    { en: "Watching", pt: "Assistindo", example: "We are watching TV." },
+                    { en: "Listening", pt: "Ouvindo", example: "I am listening to music." },
+                    { en: "Speaking", pt: "Falando", example: "She is speaking on the phone." },
+                    { en: "Running", pt: "Correndo", example: "He is running in the park." }
+                ],
+                quiz: [
+                    {
+                        question: "Complete: 'They ___ dinner right now.'",
+                        options: ["eating", "are eating", "is eating", "eat"],
+                        correct: 1
+                    },
+                    {
+                        question: "Qual frase está correta?",
+                        options: ["I am work now", "I working now", "I am working now", "I works now"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Past Simple",
+                level: "B1",
+                theory: `
+                    <h3>Passado Simples</h3>
+                    <p><strong>Uso:</strong> Expressa ações concluídas no passado.</p>
+                    <p><strong>Verbos Regulares:</strong> Base do verbo + -ed</p>
+                    <ul>
+                        <li>work → worked</li>
+                        <li>play → played</li>
+                        <li>study → studied</li>
+                    </ul>
+                    <p><strong>Verbos Irregulares:</strong> Formas específicas (go → went, have → had, see → saw)</p>
+                    <p><strong>Negativa:</strong> Subject + didn't + verbo base</p>
+                    <p><strong>Interrogativa:</strong> Did + subject + verbo base?</p>
+                    <p><strong>Palavras-chave:</strong> yesterday, last week/month/year, ago, in 2020</p>
+                `,
+                vocabulary: [
+                    { en: "Went", pt: "Foi/Foram", example: "I went to the beach yesterday." },
+                    { en: "Saw", pt: "Vi/Viu", example: "She saw a movie last night." },
+                    { en: "Had", pt: "Tinha/Teve", example: "We had dinner at 7 PM." },
+                    { en: "Made", pt: "Fez/Fizeram", example: "He made a cake." },
+                    { en: "Took", pt: "Pegou/Levou", example: "They took the bus." },
+                    { en: "Came", pt: "Veio/Vieram", example: "She came to my house." },
+                    { en: "Said", pt: "Disse/Disseram", example: "He said hello." },
+                    { en: "Got", pt: "Conseguiu/Pegou", example: "I got a new job." }
+                ],
+                quiz: [
+                    {
+                        question: "Qual é o passado de 'go'?",
+                        options: ["goed", "went", "gone", "goed"],
+                        correct: 1
+                    },
+                    {
+                        question: "Complete: 'She ___ to Paris last year.'",
+                        options: ["go", "goes", "went", "going"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Future Forms",
+                level: "B1",
+                theory: `
+                    <h3>Formas de Futuro</h3>
+                    <p><strong>Will:</strong> Decisões espontâneas, previsões, promessas</p>
+                    <ul>
+                        <li>I will help you. (Eu vou te ajudar)</li>
+                        <li>It will rain tomorrow. (Vai chover amanhã)</li>
+                    </ul>
+                    <p><strong>Going to:</strong> Planos, intenções, previsões baseadas em evidências</p>
+                    <ul>
+                        <li>I'm going to study tonight. (Vou estudar hoje à noite)</li>
+                        <li>It's going to rain. (Vai chover - vejo nuvens escuras)</li>
+                    </ul>
+                    <p><strong>Present Continuous:</strong> Arranjos fixos no futuro</p>
+                    <ul>
+                        <li>I'm meeting John tomorrow. (Vou encontrar o John amanhã)</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "Will", pt: "Vai (futuro)", example: "I will call you later." },
+                    { en: "Going to", pt: "Vai (planejado)", example: "I'm going to visit my parents." },
+                    { en: "Tomorrow", pt: "Amanhã", example: "See you tomorrow!" },
+                    { en: "Next week", pt: "Semana que vem", example: "Next week I'll be on vacation." },
+                    { en: "Soon", pt: "Em breve", example: "I'll finish soon." },
+                    { en: "Later", pt: "Mais tarde", example: "Call me later." },
+                    { en: "Plan", pt: "Plano", example: "What are your plans?" },
+                    { en: "Promise", pt: "Promessa", example: "I promise I will help." }
+                ],
+                quiz: [
+                    {
+                        question: "Escolha a opção correta para uma decisão espontânea:",
+                        options: ["I'm going to help you", "I will help you", "I help you", "I helping you"],
+                        correct: 1
+                    },
+                    {
+                        question: "Complete: 'Look at those clouds! It ___ rain.'",
+                        options: ["will", "is going to", "going", "is"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Modal Verbs",
+                level: "B1",
+                theory: `
+                    <h3>Verbos Modais</h3>
+                    <p><strong>Can/Could:</strong> Habilidade, possibilidade, pedidos</p>
+                    <ul>
+                        <li>I can swim. (Eu sei nadar)</li>
+                        <li>Could you help me? (Você poderia me ajudar?)</li>
+                    </ul>
+                    <p><strong>Must/Have to:</strong> Obrigação</p>
+                    <ul>
+                        <li>You must wear a seatbelt. (Você deve usar cinto)</li>
+                        <li>I have to work tomorrow. (Tenho que trabalhar amanhã)</li>
+                    </ul>
+                    <p><strong>Should/Ought to:</strong> Conselho</p>
+                    <ul>
+                        <li>You should study more. (Você deveria estudar mais)</li>
+                    </ul>
+                    <p><strong>May/Might:</strong> Possibilidade</p>
+                    <ul>
+                        <li>It might rain. (Pode chover)</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "Can", pt: "Pode/Consegue", example: "I can speak English." },
+                    { en: "Could", pt: "Poderia/Conseguia", example: "Could you pass the salt?" },
+                    { en: "Must", pt: "Deve/Tem que", example: "You must be quiet in the library." },
+                    { en: "Should", pt: "Deveria", example: "You should see a doctor." },
+                    { en: "May", pt: "Pode (permissão)", example: "May I use your phone?" },
+                    { en: "Might", pt: "Pode (possibilidade)", example: "I might go to the party." },
+                    { en: "Would", pt: "Gostaria", example: "Would you like some coffee?" },
+                    { en: "Have to", pt: "Ter que", example: "I have to finish this today." }
+                ],
+                quiz: [
+                    {
+                        question: "Qual modal expressa obrigação forte?",
+                        options: ["can", "should", "must", "might"],
+                        correct: 2
+                    },
+                    {
+                        question: "Complete o conselho: 'You ___ eat more vegetables.'",
+                        options: ["must", "should", "can", "may"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 9,
+                title: "Conditionals",
+                level: "B1",
+                theory: `
+                    <h3>Condicionais</h3>
+                    <p><strong>Zero Conditional:</strong> Fatos gerais, verdades universais</p>
+                    <ul>
+                        <li>If you heat water to 100°C, it boils. (Se você aquece água a 100°C, ela ferve)</li>
+                    </ul>
+                    <p><strong>First Conditional:</strong> Situações reais e possíveis no futuro</p>
+                    <ul>
+                        <li>If it rains, I will stay home. (Se chover, vou ficar em casa)</li>
+                    </ul>
+                    <p><strong>Second Conditional:</strong> Situações hipotéticas ou improváveis</p>
+                    <ul>
+                        <li>If I won the lottery, I would travel the world. (Se eu ganhasse na loteria, viajaria o mundo)</li>
+                    </ul>
+                    <p><strong>Third Conditional:</strong> Situações passadas que não aconteceram</p>
+                    <ul>
+                        <li>If I had studied, I would have passed. (Se eu tivesse estudado, teria passado)</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "If", pt: "Se", example: "If you need help, call me." },
+                    { en: "Unless", pt: "A menos que", example: "I'll go unless it rains." },
+                    { en: "Would", pt: "Faria (condicional)", example: "I would help if I could." },
+                    { en: "Could", pt: "Poderia", example: "If I had time, I could visit." },
+                    { en: "Might", pt: "Poderia (possibilidade)", example: "If I'm free, I might come." },
+                    { en: "Had", pt: "Tivesse", example: "If I had known, I would have helped." },
+                    { en: "Were", pt: "Fosse", example: "If I were you, I would accept." },
+                    { en: "Then", pt: "Então", example: "If you study, then you'll pass." }
+                ],
+                quiz: [
+                    {
+                        question: "Complete: 'If I ___ rich, I would buy a house.'",
+                        options: ["am", "was", "were", "be"],
+                        correct: 2
+                    },
+                    {
+                        question: "Qual condicional expressa uma situação real possível no futuro?",
+                        options: ["Zero", "First", "Second", "Third"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 10,
+                title: "Business English",
+                level: "B2",
+                theory: `
+                    <h3>Inglês para Negócios</h3>
+                    <p><strong>Email Profissional:</strong></p>
+                    <ul>
+                        <li>Subject line: Clear and concise</li>
+                        <li>Opening: Dear Mr./Ms./Dr. [Name]</li>
+                        <li>Body: Professional and direct</li>
+                        <li>Closing: Best regards, Sincerely, Kind regards</li>
+                    </ul>
+                    <p><strong>Frases Úteis em Reuniões:</strong></p>
+                    <ul>
+                        <li>"Could you clarify that point?" (Poderia esclarecer esse ponto?)</li>
+                        <li>"Let's move on to the next topic." (Vamos passar para o próximo tópico)</li>
+                        <li>"I'd like to add something." (Gostaria de acrescentar algo)</li>
+                    </ul>
+                    <p><strong>Apresentações:</strong></p>
+                    <ul>
+                        <li>Introduction: "Good morning, I'm here to talk about..."</li>
+                        <li>Main points: "Firstly... Secondly... Finally..."</li>
+                        <li>Conclusion: "To sum up... In conclusion..."</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "Meeting", pt: "Reunião", example: "We have a meeting at 3 PM." },
+                    { en: "Deadline", pt: "Prazo", example: "The deadline is Friday." },
+                    { en: "Report", pt: "Relatório", example: "I need to finish this report." },
+                    { en: "Presentation", pt: "Apresentação", example: "The presentation went well." },
+                    { en: "Schedule", pt: "Agenda/Cronograma", example: "What's on your schedule?" },
+                    { en: "Client", pt: "Cliente", example: "The client is satisfied." },
+                    { en: "Project", pt: "Projeto", example: "We're working on a new project." },
+                    { en: "Budget", pt: "Orçamento", example: "We need to review the budget." }
+                ],
+                quiz: [
+                    {
+                        question: "Qual é a melhor forma de começar um email profissional?",
+                        options: ["Hi!", "Dear Sir/Madam,", "Hey there,", "Yo!"],
+                        correct: 1
+                    },
+                    {
+                        question: "Complete a frase de reunião: 'Could you ___ that point?'",
+                        options: ["explain", "clarify", "tell", "say"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 11,
+                title: "Fluency Practice",
+                level: "B2",
+                theory: `
+                    <h3>Prática de Fluência</h3>
+                    <p><strong>Expressando Opiniões:</strong></p>
+                    <ul>
+                        <li>"In my opinion..." / "From my perspective..."</li>
+                        <li>"I believe that..." / "I think that..."</li>
+                        <li>"I would argue that..." / "It seems to me that..."</li>
+                    </ul>
+                    <p><strong>Concordando e Discordando:</strong></p>
+                    <ul>
+                        <li>Concordar: "I completely agree." / "That's exactly what I think."</li>
+                        <li>Discordar: "I see your point, but..." / "I respectfully disagree."</li>
+                    </ul>
+                    <p><strong>Conectores Avançados:</strong></p>
+                    <ul>
+                        <li>However, Nevertheless, Furthermore, Moreover</li>
+                        <li>On the other hand, In addition, Consequently</li>
+                    </ul>
+                    <p><strong>Técnicas de Debate:</strong></p>
+                    <ul>
+                        <li>Present your argument clearly</li>
+                        <li>Support with examples and evidence</li>
+                        <li>Address counterarguments</li>
+                        <li>Conclude with a strong statement</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "However", pt: "No entanto", example: "I like coffee. However, I prefer tea." },
+                    { en: "Therefore", pt: "Portanto", example: "It's raining, therefore we'll stay inside." },
+                    { en: "Moreover", pt: "Além disso", example: "The product is cheap. Moreover, it's high quality." },
+                    { en: "Although", pt: "Embora", example: "Although it's expensive, it's worth it." },
+                    { en: "Meanwhile", pt: "Enquanto isso", example: "I'll cook. Meanwhile, you set the table." },
+                    { en: "Consequently", pt: "Consequentemente", example: "He didn't study, consequently he failed." },
+                    { en: "Furthermore", pt: "Além disso", example: "The hotel is near the beach. Furthermore, it has a pool." },
+                    { en: "Nevertheless", pt: "Ainda assim", example: "It's difficult. Nevertheless, I'll try." }
+                ],
+                quiz: [
+                    {
+                        question: "Qual conector expressa contraste?",
+                        options: ["Moreover", "However", "Furthermore", "Therefore"],
+                        correct: 1
+                    },
+                    {
+                        question: "Complete: 'I see your point, ___ I disagree.'",
+                        options: ["and", "but", "so", "because"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 12,
+                title: "B2 Certification Prep",
+                level: "B2",
+                theory: `
+                    <h3>Preparação para Certificação B2</h3>
+                    <p><strong>Estrutura do Exame:</strong></p>
+                    <ul>
+                        <li><strong>Reading:</strong> Compreensão de textos longos e complexos</li>
+                        <li><strong>Writing:</strong> Ensaios, cartas formais e informais</li>
+                        <li><strong>Listening:</strong> Compreensão de áudios em várias situações</li>
+                        <li><strong>Speaking:</strong> Conversação, apresentação, debate</li>
+                    </ul>
+                    <p><strong>Estratégias de Sucesso:</strong></p>
+                    <ul>
+                        <li>Gerenciamento de tempo: pratique com cronômetro</li>
+                        <li>Leitura: identifique palavras-chave e faça scanning</li>
+                        <li>Writing: planeje antes de escrever, revise sempre</li>
+                        <li>Listening: preste atenção em detalhes e contexto</li>
+                        <li>Speaking: pratique pronúncia, seja fluente e natural</li>
+                    </ul>
+                    <p><strong>Recursos de Prática:</strong></p>
+                    <ul>
+                        <li>Exames simulados completos</li>
+                        <li>Practice tests online</li>
+                        <li>Mock interviews</li>
+                        <li>Essay writing practice</li>
+                    </ul>
+                `,
+                vocabulary: [
+                    { en: "Exam", pt: "Exame", example: "I'm preparing for the exam." },
+                    { en: "Certification", pt: "Certificação", example: "I need a B2 certification." },
+                    { en: "Practice", pt: "Praticar", example: "Practice makes perfect." },
+                    { en: "Fluent", pt: "Fluente", example: "She's fluent in three languages." },
+                    { en: "Grammar", pt: "Gramática", example: "Good grammar is essential." },
+                    { en: "Vocabulary", pt: "Vocabulário", example: "Expand your vocabulary daily." },
+                    { en: "Comprehension", pt: "Compreensão", example: "Test your comprehension." },
+                    { en: "Proficiency", pt: "Proficiência", example: "Achieve proficiency in English." }
+                ],
+                quiz: [
+                    {
+                        question: "Quantas seções tem um exame de certificação B2 típico?",
+                        options: ["2", "3", "4", "5"],
+                        correct: 2
+                    },
+                    {
+                        question: "Qual é a melhor estratégia para a seção de Reading?",
+                        options: ["Ler devagar tudo", "Identificar palavras-chave", "Pular perguntas difíceis", "Ler apenas o início"],
+                        correct: 1
+                    }
+                ]
+            }
+        ];
+
+        // App State
+        let appState = {
+            isLoggedIn: false,
+            currentMonth: null,
+            totalXP: 0,
+            currentLevel: 'A1',
+            completedMonths: [],
+            streak: 0,
+            totalTime: 0,
+            lastStudyDate: null,
+            flashcardIndex: 0,
+            currentFlashcards: []
+        };
+
+        // Load Progress
+        function loadProgress() {
+            const saved = localStorage.getItem('englishMasteryProgress');
+            if (saved) {
+                appState = JSON.parse(saved);
+                updateStreak();
+            }
+        }
+
+        // Save Progress
+        function saveProgress() {
+            localStorage.setItem('englishMasteryProgress', JSON.stringify(appState));
+        }
+
+        // Update Streak
+        function updateStreak() {
+            const today = new Date().toDateString();
+            if (appState.lastStudyDate !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                if (appState.lastStudyDate === yesterday.toDateString()) {
+                    appState.streak++;
+                } else if (appState.lastStudyDate !== today) {
+                    appState.streak = 1;
+                }
+                appState.lastStudyDate = today;
+                saveProgress();
+            }
+        }
+
+        // Login - Removido, acesso direto
+        function login() {
+            appState.isLoggedIn = true;
+            saveProgress();
+            showDashboard();
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Deseja sair?')) {
+                document.getElementById('loginScreen').classList.add('active');
+                document.getElementById('dashboardScreen').classList.remove('active');
+            }
+        }
+
+        // Show Dashboard
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('dashboardScreen').classList.add('active');
+            updateStats();
+            renderMonths();
+        }
+
+        // Update Stats
+        function updateStats() {
+            document.getElementById('currentLevel').textContent = appState.currentLevel;
+            document.getElementById('totalXP').textContent = appState.totalXP;
+            document.getElementById('streakCount').textContent = appState.streak;
+            
+            const progress = Math.round((appState.completedMonths.length / 12) * 100);
+            document.getElementById('overallProgress').textContent = progress + '%';
+            document.getElementById('overallProgressBar').style.width = progress + '%';
+            document.getElementById('completedCount').textContent = appState.completedMonths.length + '/12';
+            document.getElementById('streakDays').textContent = appState.streak;
+            document.getElementById('totalTime').textContent = Math.floor(appState.totalTime / 60) + 'h';
+        }
+
+        // Render Months
+        function renderMonths() {
+            const grid = document.getElementById('monthsGrid');
+            grid.innerHTML = '';
+            
+            courseData.forEach(month => {
+                const isCompleted = appState.completedMonths.includes(month.id);
+                const card = document.createElement('div');
+                card.className = 'month-card' + (isCompleted ? ' completed' : '');
+                card.innerHTML = `
+                    <div class="month-number">${month.id}</div>
+                    <div class="month-title">${month.title}</div>
+                    <div class="month-level">${month.level}</div>
+                    <div class="month-status">${isCompleted ? '✓' : '○'}</div>
+                `;
+                card.onclick = () => openMonth(month.id);
+                grid.appendChild(card);
+            });
+        }
+
+        // Open Month
+        function openMonth(monthId) {
+            const month = courseData.find(m => m.id === monthId);
+            appState.currentMonth = monthId;
+            
+            document.getElementById('monthsSection').style.display = 'none';
+            document.getElementById('dailySection').style.display = 'block';
+            document.getElementById('monthTitle').textContent = `Mês ${month.id} - ${month.title}`;
+            
+            renderActivities(month);
+        }
+
+        // Back to Months
+        function backToMonths() {
+            document.getElementById('monthsSection').style.display = 'block';
+            document.getElementById('dailySection').style.display = 'none';
+        }
+
+        // Render Activities
+        function renderActivities(month) {
+            const container = document.getElementById('activitiesContainer');
+            container.innerHTML = `
+                <!-- Theory Section -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3>📚 Teoria e Fundamentos</h3>
+                        <span class="xp-badge">+20 XP</span>
+                    </div>
+                    <div>${month.theory}</div>
+                    <button onclick="completeTheory()" class="btn btn-complete" style="margin-top: 1.5rem;">Marcar como Concluído</button>
+                </div>
+                
+                <!-- Vocabulary Section -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3>📝 Vocabulário Essencial</h3>
+                        <span class="xp-badge">+30 XP</span>
+                    </div>
+                    <div class="vocab-grid" id="vocabGrid"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button onclick="startFlashcards()" class="btn btn-primary">🎴 Flashcards SRS</button>
+                        ${month.quiz.length > 0 ? '<button onclick="startQuiz()" class="btn btn-primary">🎯 Quiz Interativo</button>' : ''}
+                    </div>
+                </div>
+                
+                <!-- Practice Section -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3>🎯 Prática e Recursos</h3>
+                        <span class="xp-badge">+40 XP</span>
+                    </div>
+                    <div class="resources-grid">
+                        <a href="https://www.bbc.co.uk/learningenglish" target="_blank" class="resource-link">
+                            <div class="resource-icon">🎙️</div>
+                            <div class="resource-text">
+                                <div class="resource-title">BBC Learning English</div>
+                                <div class="resource-desc">Listening & Pronunciation</div>
+                            </div>
+                        </a>
+                        <a href="https://learnenglish.britishcouncil.org" target="_blank" class="resource-link">
+                            <div class="resource-icon">📖</div>
+                            <div class="resource-text">
+                                <div class="resource-title">British Council</div>
+                                <div class="resource-desc">Grammar & Reading</div>
+                            </div>
+                        </a>
+                        <a href="https://www.allearsenglish.com" target="_blank" class="resource-link">
+                            <div class="resource-icon">🎧</div>
+                            <div class="resource-text">
+                                <div class="resource-title">All Ears English</div>
+                                <div class="resource-desc">Podcast & Real Conversations</div>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/user/engvidenglish" target="_blank" class="resource-link">
+                            <div class="resource-icon">📺</div>
+                            <div class="resource-text">
+                                <div class="resource-title">EngVid</div>
+                                <div class="resource-desc">Video Lessons</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            // Render vocabulary
+            const vocabGrid = document.getElementById('vocabGrid');
+            month.vocabulary.forEach(word => {
+                const item = document.createElement('div');
+                item.className = 'vocab-item';
+                item.innerHTML = `
+                    <div class="vocab-word">${word.en}</div>
+                    <div class="vocab-translation">${word.pt}</div>
+                    ${word.example ? `<div class="vocab-example">"${word.example}"</div>` : ''}
+                `;
+                vocabGrid.appendChild(item);
+            });
+        }
+
+        // Complete Theory
+        function completeTheory() {
+            addXP(20);
+            showSuccess('✅ Teoria concluída! +20 XP');
+        }
+
+        // Add XP
+        function addXP(amount) {
+            appState.totalXP += amount;
+            
+            // Update level
+            if (appState.totalXP >= 2000) appState.currentLevel = 'B2';
+            else if (appState.totalXP >= 1000) appState.currentLevel = 'B1';
+            else if (appState.totalXP >= 500) appState.currentLevel = 'A2';
+            
+            updateStats();
+            saveProgress();
+        }
+
+        // Quiz System
+        let currentQuestion = 0;
+        
+        function startQuiz() {
+            const month = courseData.find(m => m.id === appState.currentMonth);
+            currentQuestion = 0;
+            showQuestion(month.quiz);
+            document.getElementById('quizModal').classList.add('active');
+        }
+        
+        function showQuestion(quiz) {
+            const q = quiz[currentQuestion];
+            const content = document.getElementById('quizContent');
+            content.innerHTML = `
+                <div class="quiz-question">${q.question}</div>
+                ${q.options.map((opt, i) => `
+                    <div class="quiz-option" onclick="selectOption(${i})">${opt}</div>
+                `).join('')}
+            `;
+        }
+        
+        let selectedOption = null;
+        
+        function selectOption(index) {
+            selectedOption = index;
+            document.querySelectorAll('.quiz-option').forEach((el, i) => {
+                el.classList.remove('selected');
+                if (i === index) el.classList.add('selected');
+            });
+        }
+        
+        function checkQuizAnswer() {
+            const month = courseData.find(m => m.id === appState.currentMonth);
+            const q = month.quiz[currentQuestion];
+            
+            if (selectedOption === null) {
+                alert('Selecione uma opção!');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options[q.correct].classList.add('correct');
+            
+            if (selectedOption === q.correct) {
+                addXP(30);
+                showSuccess('✅ Correto! +30 XP');
+                setTimeout(() => closeQuiz(), 1500);
+            } else {
+                options[selectedOption].classList.add('wrong');
+                setTimeout(() => {
+                    options[selectedOption].classList.remove('wrong');
+                    selectedOption = null;
+                }, 1000);
+            }
+        }
+        
+        function closeQuiz() {
+            document.getElementById('quizModal').classList.remove('active');
+        }
+
+        // Flashcard System
+        function startFlashcards() {
+            const month = courseData.find(m => m.id === appState.currentMonth);
+            appState.currentFlashcards = month.vocabulary;
+            appState.flashcardIndex = 0;
+            showFlashcard();
+            document.getElementById('flashcardModal').classList.add('active');
+        }
+
+        function showFlashcard() {
+            if (appState.flashcardIndex >= appState.currentFlashcards.length) {
+                appState.flashcardIndex = 0;
+            }
+            
+            const card = appState.currentFlashcards[appState.flashcardIndex];
+            document.getElementById('flashcardFront').textContent = card.en;
+            document.getElementById('flashcardBack').textContent = card.pt;
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextFlashcard() {
+            appState.flashcardIndex++;
+            if (appState.flashcardIndex >= appState.currentFlashcards.length) {
+                addXP(30);
+                showSuccess('🎉 Flashcards concluídos! +30 XP');
+                closeFlashcards();
+            } else {
+                showFlashcard();
+            }
+        }
+
+        function closeFlashcards() {
+            document.getElementById('flashcardModal').classList.remove('active');
+        }
+
+        // Show Success Message
+        function showSuccess(message) {
+            const div = document.createElement('div');
+            div.className = 'success-message';
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // Initialize
+        loadProgress();
+        appState.isLoggedIn = true;
+        saveProgress();
+        showDashboard();
+
+        // Handle Enter key on password input
+        document.getElementById('passwordInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>
